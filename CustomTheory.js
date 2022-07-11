@@ -70,7 +70,7 @@ var getPrimaryEquation = () => {
 
     result += "(\\frac{a_2}{4} + 1)";
 
-    result += "\\sqrt{\\frac{a_3}{2}}";
+    result += "(\\sqrt{\\frac{a_3}{2}} + 1)";
 
     return result;
 }
