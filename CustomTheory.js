@@ -70,6 +70,6 @@ var getPublicationMultiplierFormula = (symbol) => "\\frac{{" + symbol + "}^{0.97
 var getTau = () => currency.value.pow(0.2);
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
-var getC1 = (level) => BigNumber.from(2 * level)
+var getA1 = (level) => BigNumber.from(2 * level)
 
 init();
