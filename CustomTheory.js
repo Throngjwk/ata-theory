@@ -29,10 +29,18 @@ var init = () => {
 
     // a2
     {
-        let getDesc = (level) => "a_2=" + getA1(level).toString(0);
+        let getDesc = (level) => "a_2=" + getA2(level).toString(0);
         a2 = theory.createUpgrade(1, currency, new ExponentialCost(2048, Math.log2(1.9)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
         a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
+    }
+
+    // a3
+    {
+        let getDesc = (level) => "a_3=" + getA3(level).toString(0);
+        a3 = theory.createUpgrade(1, currency, new ExponentialCost(1e5, Math.log2(1.9)));
+        a3.getDescription = (_) => Utils.getMath(getDesc(a3.level));
+        a3.getInfo = (amount) => Utils.getMathTo(getDesc(a3.level), getDesc(a3.level + amount));
     }
 
     /////////////////////
@@ -40,6 +48,13 @@ var init = () => {
     theory.createPublicationUpgrade(0, currency, 1e12);
     theory.createBuyAllUpgrade(1, currency, 1e30);
     theory.createAutoBuyerUpgrade(2, currency, 1e75);
+
+    {
+        let getDesc = (level) => "g=" + getG(level).toString(0);
+        g = theory.createPermanentUpgrade(3, currency, new new ExponentialCost(1e6, Math.log2(1e3)));
+        g.getDescription = (amount) => Utils.getMath(getDesc(g.level));
+        g.getInfo = (amount) => Utils.getMathTo(getDesc(g.level), getDesc(g.level + amount));
+    }
 
     ///////////////////////
     //// Milestone Upgrades
@@ -62,7 +77,8 @@ var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
     currency.value += dt * bonus * getA1(a1.level).sqrt() *
-                                   ((getA2(a2.level) / 4) + 1)
+                                   ((getA2(a2.level) / 4) + 1) *
+                                   (getA3(a3.level).sqrt() + 1)
 }
 
 var getPrimaryEquation = () => {
@@ -70,7 +86,7 @@ var getPrimaryEquation = () => {
 
     result += "(\\frac{a_2}{4} + 1)";
 
-    result += "(\\sqrt{\\frac{a_3}{2}} + 1)";
+    result += "(\\sqrt{a_3} + 1)";
 
     return result;
 }
