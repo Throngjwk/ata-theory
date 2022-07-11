@@ -32,7 +32,7 @@ var init = () => {
         let getDesc = (level) => "a_2=" + getA1(level).toString(0);
         a2 = theory.createUpgrade(1, currency, new ExponentialCost(2048, Math.log2(1.9)));
         a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
-        a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a22.level + amount));
+        a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a2.level + amount));
     }
 
     /////////////////////
@@ -69,6 +69,8 @@ var getPrimaryEquation = () => {
     let result = "\\dot{\\rho} = \\sqrt{a_1}^{g + 1}";
 
     result += "(\\frac{a_2}{4} + 1)";
+
+    result += "\\sqrt{\\frac{a_3}{2}}";
 
     return result;
 }
