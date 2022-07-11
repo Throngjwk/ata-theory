@@ -27,6 +27,14 @@ var init = () => {
         a1.getInfo = (amount) => Utils.getMathTo(getDesc(a1.level), getDesc(a1.level + amount));
     }
 
+    // a2
+    {
+        let getDesc = (level) => "a_2=" + getA1(level).toString(0);
+        a2 = theory.createUpgrade(0, currency, new ExponentialCost(2048, Math.log2(1.9)));
+        a2.getDescription = (_) => Utils.getMath(getDesc(a2.level));
+        a2.getInfo = (amount) => Utils.getMathTo(getDesc(a2.level), getDesc(a22.level + amount));
+    }
+
     /////////////////////
     // Permanent Upgrades
     theory.createPublicationUpgrade(0, currency, 1e12);
@@ -53,7 +61,8 @@ var updateAvailability = () => {
 var tick = (elapsedTime, multiplier) => {
     let dt = BigNumber.from(elapsedTime * multiplier);
     let bonus = theory.publicationMultiplier;
-    currency.value += dt * bonus * getA1(a1.level).sqrt()
+    currency.value += dt * bonus * getA1(a1.level).sqrt() *
+                                   ((getA2(a2.level) / 4) + 1)
 }
 
 var getPrimaryEquation = () => {
@@ -71,5 +80,6 @@ var getTau = () => currency.value.pow(0.2);
 var get2DGraphValue = () => currency.value.sign * (BigNumber.ONE + currency.value.abs()).log10().toNumber();
 
 var getA1 = (level) => BigNumber.from(2 * level)
+var getA2 = (level) => BigNumber.from(2 * level)
 
 init();
